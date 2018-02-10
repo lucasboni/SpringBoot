@@ -1,27 +1,25 @@
 package br.com.lucas.boni.bittencourt.cursomc.resources;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Categoria;
+import br.com.lucas.boni.bittencourt.cursomc.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar(){
-        Categoria cat1 = new Categoria(1,"informatica");
-        Categoria cat2 = new Categoria(2,"escritorio");
+    @Autowired
+    private CategoriaService service;
 
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
-
-        return lista;
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id){
+        Categoria buscar = service.buscar(id);
+        return ResponseEntity.ok().body(buscar);
     }
     
 }
