@@ -14,11 +14,7 @@ public class CategoriaService {
     private CategoriaRepository repo;
 
     public Categoria buscar(Integer id){
-        Optional<Categoria> categoria = repo.findById(id);
-        if(!categoria.isPresent()){
-              return null;
-        }
-        return categoria.get();
+        Optional<Categoria> categoria = repo.findById(id);   //por algum motivo o indone n funciona
+        return categoria.orElse(null);
     }
-
 }
