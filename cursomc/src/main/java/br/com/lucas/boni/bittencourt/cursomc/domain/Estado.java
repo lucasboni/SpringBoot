@@ -6,19 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Estado implements Serializable{
+public class Estado implements Serializable {
+    @OneToMany(mappedBy = "estado")
+    List<Cidade> cidades = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
 
-    @OneToMany(mappedBy = "estado")
-    List<Cidade> cidades = new ArrayList<>();
-
     public Estado() {
     }
 
-    public Estado(Integer id, String nome) {    
+    public Estado(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }

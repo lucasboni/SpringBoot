@@ -30,6 +30,10 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -42,8 +46,8 @@ public class Categoria implements Serializable {
         return nome;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public List<Produto> getProdutos() {
@@ -52,10 +56,6 @@ public class Categoria implements Serializable {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     @Override

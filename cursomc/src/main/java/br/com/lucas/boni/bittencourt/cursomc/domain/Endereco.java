@@ -1,11 +1,13 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 
 @Entity
-public class Endereco implements Serializable{
+public class Endereco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +18,12 @@ public class Endereco implements Serializable{
     private String bairro;
     private String cep;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente ;
+    private Cliente cliente;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;

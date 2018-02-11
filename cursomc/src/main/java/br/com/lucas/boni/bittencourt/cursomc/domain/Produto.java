@@ -8,26 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Produto implements Serializable{
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String nome;
-    private Double preco;
+public class Produto implements Serializable {
 
     @JsonBackReference//pega a lista do outro lado da referencia
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA",
             joinColumns = @JoinColumn(name = "produto_id"),
-    inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     List<Categoria> categorias = new ArrayList<>();
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private Double preco;
+
     public Produto() {
     }
 
-    public Produto(Integer id,String nome, Double preco) {
+    public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
