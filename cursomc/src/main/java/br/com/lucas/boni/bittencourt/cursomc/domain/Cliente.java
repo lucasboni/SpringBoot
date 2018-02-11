@@ -1,8 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCliente;
 
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
@@ -30,7 +29,8 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")     //CRIA UMA TABELA COM NOME TELEFONE
     private Set<String> telefones = new HashSet<>();
 
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
