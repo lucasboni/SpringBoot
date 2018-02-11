@@ -29,6 +29,9 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")     //CRIA UMA TABELA COM NOME TELEFONE
     private Set<String> telefones = new HashSet<>();
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
+
     public Cliente() {
     }
 
@@ -68,6 +71,18 @@ public class Cliente implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setTipoCliente(Integer tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     public void setEmail(String email) {

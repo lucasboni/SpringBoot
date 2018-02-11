@@ -13,10 +13,10 @@ public class CategoriaService {
     private CategoriaRepository repo;
 
     public Categoria buscar(Integer id) {
-        Categoria categoria = repo.findOne(id);   //por algum motivo o indone n funciona
-        if (categoria == null) {
+        Categoria obj = repo.findOne(id);   //por algum motivo o indone n funciona
+        if (obj == null) {
             throw new ObjectNotFoundException("Objeto não encontrado id " + id + " tipo " + Categoria.class.getName());
         }
-        return categoria;
+        return obj;
     }
 }
