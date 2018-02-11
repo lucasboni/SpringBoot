@@ -3,6 +3,7 @@ package br.com.lucas.boni.bittencourt.cursomc.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class Cidade implements Serializable {
 
     @Id

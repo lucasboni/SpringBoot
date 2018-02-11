@@ -9,8 +9,7 @@ import java.util.List;
 
 @Entity
 public class Produto implements Serializable{
-
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
