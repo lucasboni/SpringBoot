@@ -1,6 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")     //CRIA UMA TABELA COM NOME TELEFONE
     private Set<String> telefones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

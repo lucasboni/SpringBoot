@@ -1,6 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,9 +14,10 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
-    @MapsId                 //pedido e pagamento usando o mesmo id
+    @MapsId                 //pedido e pagamento usando o mesmo id PARA NAO DA ERRO AO INSERIR USA O CASCATE.ALL
     private Pedido pedido;
 
     public Pagamento() {

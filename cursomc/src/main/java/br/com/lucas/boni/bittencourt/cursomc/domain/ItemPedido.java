@@ -1,5 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -7,6 +9,7 @@ import java.io.Serializable;
 @Entity
 public class ItemPedido implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId                                  //usa essa anotacao para chave composta
     private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -57,10 +60,12 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore //acessa diretamente logo sao serializados          ->removido pois quero este campo
     public Pedido getPedido() {
         return id.getPedido();
     }
 
+    //@JsonIgnore //acessa diretamente logo sao serializados
     public Produto getProduto() {
         return id.getProduto();
     }
