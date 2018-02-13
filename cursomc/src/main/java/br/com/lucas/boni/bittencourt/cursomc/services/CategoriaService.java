@@ -1,6 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.services;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Categoria;
+import br.com.lucas.boni.bittencourt.cursomc.dto.CategoriaDTO;
 import br.com.lucas.boni.bittencourt.cursomc.repositoies.CategoriaRepository;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.DataIntegrityException;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.ObjectNotFoundException;
@@ -55,5 +56,9 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linerPage, Sort.Direction.valueOf(direction), orderBy);
         return repo.findAll(pageRequest);
+    }
+
+    public Categoria fromDT0(CategoriaDTO obj) {
+        return new Categoria(obj.getId(), obj.getNome());
     }
 }

@@ -67,7 +67,7 @@ public class CursomcApplication implements CommandLineRunner {
 
         categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
         produtoRepository.save(Arrays.asList(p1, p2, p3));
-        
+
         Estado est1 = new Estado(null, "Minas Gerais");
         Estado est2 = new Estado(null, "São Paulo");
 
@@ -118,6 +118,6 @@ public class CursomcApplication implements CommandLineRunner {
         p3.getItens().addAll(Arrays.asList(ip2));
 
         itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
-        
+
     }
 }

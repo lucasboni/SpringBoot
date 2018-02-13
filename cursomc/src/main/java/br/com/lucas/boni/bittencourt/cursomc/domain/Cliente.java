@@ -75,6 +75,10 @@ public class Cliente implements Serializable {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setTipoCliente(Integer tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
@@ -85,10 +89,6 @@ public class Cliente implements Serializable {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getCpfOuCnpj() {
