@@ -2,9 +2,13 @@ package br.com.lucas.boni.bittencourt.cursomc.services;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Categoria;
 import br.com.lucas.boni.bittencourt.cursomc.repositoies.CategoriaRepository;
+import br.com.lucas.boni.bittencourt.cursomc.services.exception.DataIntegrityException;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoriaService {
@@ -33,6 +37,15 @@ public class CategoriaService {
 
     public void delete(Integer id) {
         find(id);
-        repo.delete(id);
+        try {
+            repo.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possivel excluir uma categoria que possui pro");
+        }
+    }
+
+    public List<Categoria> findAll() {
+        List<Categoria> list = repo.findAll();
+        return list;
     }
 }
