@@ -1,12 +1,14 @@
 package br.com.lucas.boni.bittencourt.cursomc.dto;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Cliente;
+import br.com.lucas.boni.bittencourt.cursomc.services.validation.ClienteUpdate;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 
+@ClienteUpdate  
 public class ClienteDTO implements Serializable {
     private Integer id;
 
