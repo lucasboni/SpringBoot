@@ -22,7 +22,7 @@ public class Cliente implements Serializable {
     private Integer tipoCliente;
 
     //@JsonManagedReference
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)//tudo que modificar mo cliente irá atulizar no endereco
     private List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection //usa pois e uma entidade simples
@@ -32,7 +32,7 @@ public class Cliente implements Serializable {
     //@JsonBackReference
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos = new ArrayList<>();
+    private List<Pedido> pedidos = new ArrayList<>(); //caso ele possua pedidos nao pode excluir
 
     public Cliente() {
     }
