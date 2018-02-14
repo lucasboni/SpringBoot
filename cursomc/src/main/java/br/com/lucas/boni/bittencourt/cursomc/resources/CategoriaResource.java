@@ -47,14 +47,6 @@ public class CategoriaResource {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDT0) {      //@RequestBody faz o json ser convertido para o objeto
-        Categoria obj = service.fromDT0(objDT0);
-        obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//cria a urido novo recurso que foi criado
-        return ResponseEntity.created(uri).build();
-
-    }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -72,6 +64,16 @@ public class CategoriaResource {
         Categoria buscar = service.find(id);
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDT0) {      //@RequestBody faz o json ser convertido para o objeto
+        Categoria obj = service.fromDT0(objDT0);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//cria a urido novo recurso que foi criado
+        return ResponseEntity.created(uri).build();
+
     }
 
 }
