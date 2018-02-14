@@ -1,24 +1,45 @@
 package br.com.lucas.boni.bittencourt.cursomc.dto;
 
+import br.com.lucas.boni.bittencourt.cursomc.services.validation.ClienteInsert;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.io.Serializable;
 
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
     //TELEFONE
+    @NotEmpty(message = "esse campo é obrigatório")
     String telefone1;
     String telefone2;
     String telefone3;
+    
     //CLIENTE
+    @NotEmpty(message = "esse campo é obrigatório")
+    @Length(min = 5, max = 120, message = "o tamanho deve ter entre 5 e 120 caracteres")
     private String nome;
+    
+    @NotEmpty(message = "esse campo é obrigatório")
+    @Email(message = "email inválido")
     private String email;
+
+    @NotEmpty(message = "esse campo é obrigatório")
     private String cpfOuCnpj;
+
     private Integer tipoCliente;
+    
     //ENDERECO
+    @NotEmpty(message = "esse campo é obrigatório")
     private String logradouro;
+    @NotEmpty(message = "esse campo é obrigatório")
     private String numero;
     private String complemento;
     private String bairro;
+    @NotEmpty(message = "esse campo é obrigatório")
     private String cep;
+    
     //CIDADE
     private Integer cidadeId;
 
