@@ -2,13 +2,16 @@ package br.com.lucas.boni.bittencourt.cursomc.resources;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Cliente;
 import br.com.lucas.boni.bittencourt.cursomc.dto.ClienteDTO;
+import br.com.lucas.boni.bittencourt.cursomc.dto.ClienteNewDTO;
 import br.com.lucas.boni.bittencourt.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +57,6 @@ public class ClienteResource {
         return ResponseEntity.noContent().build();
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Cliente buscar = service.find(id);
@@ -62,5 +64,13 @@ public class ClienteResource {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDT0) {      //@RequestBody faz o json ser convertido para o objeto
+        Cliente obj = service.fromDT0(objDT0);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//cria a urido novo recurso que foi criado
+        return ResponseEntity.created(uri).build();
+
+    }
 
 }

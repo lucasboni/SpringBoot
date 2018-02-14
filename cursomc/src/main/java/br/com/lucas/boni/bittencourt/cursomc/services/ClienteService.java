@@ -1,9 +1,15 @@
 package br.com.lucas.boni.bittencourt.cursomc.services;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.Categoria;
+import br.com.lucas.boni.bittencourt.cursomc.domain.Cidade;
 import br.com.lucas.boni.bittencourt.cursomc.domain.Cliente;
+import br.com.lucas.boni.bittencourt.cursomc.domain.Endereco;
+import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.TipoCliente;
 import br.com.lucas.boni.bittencourt.cursomc.dto.ClienteDTO;
+import br.com.lucas.boni.bittencourt.cursomc.dto.ClienteNewDTO;
+import br.com.lucas.boni.bittencourt.cursomc.repositoies.CidadeRepository;
 import br.com.lucas.boni.bittencourt.cursomc.repositoies.ClienteRepository;
+import br.com.lucas.boni.bittencourt.cursomc.repositoies.EnderecoRepository;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.DataIntegrityException;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,10 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository repo;
+    @Autowired
+    private CidadeRepository cidadeRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public Cliente find(Integer id) {
         Cliente obj = repo.findOne(id);   //por algum motivo o indone n funciona
@@ -61,5 +71,27 @@ public class ClienteService {
 
     public Cliente fromDT0(ClienteDTO obj) {
         return new Cliente(obj.getId(), obj.getNome(), obj.getEmail(), null, null);
+    }
+
+    public Cliente insert(Cliente obj) {
+        obj.setId(null);
+        obj = repo.save(obj);
+        enderecoRepository.save(obj.getEnderecos());
+        return obj;
+    }
+
+    public Cliente fromDT0(ClienteNewDTO obj) {
+        Cliente cli = new Cliente(null, obj.getNome(), obj.getEmail(), obj.getCpfOuCnpj(), TipoCliente.toEnum(obj.getTipoCliente()));
+        Cidade cid = cidadeRepository.findOne(obj.getCidadeId());
+        Endereco end = new Endereco(null, obj.getLogradouro(), obj.getNumero(), obj.getComplemento(), obj.getBairro(), obj.getCep(), cli, cid);
+        cli.getEnderecos().add(end);
+        cli.getTelefones().add(obj.getTelefone1());
+        if (obj.getTelefone2() != null) {
+            cli.getTelefones().add(obj.getTelefone2());
+        }
+        if (obj.getTelefone3() != null) {
+            cli.getTelefones().add(obj.getTelefone3());
+        }
+        return cli;
     }
 }
