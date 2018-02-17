@@ -10,44 +10,35 @@ import java.io.Serializable;
 public class ItemPedido implements Serializable {
 
     @JsonIgnore
-    @EmbeddedId                       //notacao para chave composta
+    @EmbeddedId                                  //usa essa anotacao para chave composta
     private ItemPedidoPK id = new ItemPedidoPK();
 
     private Double desconto;
     private Integer quantidade;
     private Double preco;
 
-    public ItemPedido() {
-    }
-
     public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
-        super();
-        id.setPedido(pedido);
-        id.setProduto(produto);
+        this.id.setPedido(pedido);
+        this.id.setProduto(produto);
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.preco = preco;
     }
 
-    public double getSubTotal() {
-        return (preco - desconto) * quantidade;
+    public ItemPedido() {
     }
 
-    @JsonIgnore
-    public Pedido getPedido() {
-        return id.getPedido();
+    public void setPedido(Pedido pedido)
+    {
+        this.id.setPedido(pedido);
     }
 
-    public void setPedido(Pedido pedido) {
-        id.setPedido(pedido);
+    public void setPorduto(Produto produto){
+        this.id.setProduto(produto);
     }
 
-    public Produto getProduto() {
-        return id.getProduto();
-    }
-
-    public void setProduto(Produto produto) {
-        id.setProduto(produto);
+    public Double getSubTotal(){
+        return (preco - desconto)* quantidade;
     }
 
     public ItemPedidoPK getId() {
@@ -82,28 +73,32 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    @JsonIgnore //acessa diretamente logo sao serializados          ->removido pois quero este campo
+    public Pedido getPedido() {
+        return id.getPedido();
+    }
+
+    //@JsonIgnore //acessa diretamente logo sao serializados
+    public Produto getProduto() {
+        return id.getProduto();
+    }
+
+    public void setProduto(Produto produto) {
+        id.setProduto(produto);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ItemPedido other = (ItemPedido) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ItemPedido that = (ItemPedido) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
