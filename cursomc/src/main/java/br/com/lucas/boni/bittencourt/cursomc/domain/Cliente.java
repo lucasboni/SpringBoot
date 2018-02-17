@@ -81,9 +81,9 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public void setTipoCliente(Integer tipoCliente) {
+    /*public void setTipoCliente(Integer tipoCliente) { //retireipois estava dando conflito
         this.tipoCliente = tipoCliente;
-    }
+    }*/
 
     public List<Pedido> getPedidos() {
         return pedidos;
@@ -124,6 +124,8 @@ public class Cliente implements Serializable {
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
     }
+
+
 
     @Override
     public int hashCode() {

@@ -2,12 +2,14 @@ package br.com.lucas.boni.bittencourt.cursomc.domain;
 
 import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)//estrategia de mapear herança(no caso escolhi uma tabela pra cada)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")//assim o json escole a classe que será instanciada pois @Pagamento é abstrata
 public abstract class Pagamento implements Serializable {
 
     @Id

@@ -10,26 +10,44 @@ import java.io.Serializable;
 public class ItemPedido implements Serializable {
 
     @JsonIgnore
-    @EmbeddedId                                  //usa essa anotacao para chave composta
+    @EmbeddedId                       //notacao para chave composta
     private ItemPedidoPK id = new ItemPedidoPK();
 
     private Double desconto;
     private Integer quantidade;
     private Double preco;
 
+    public ItemPedido() {
+    }
+
     public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
-        this.id.setPedido(pedido);
-        this.id.setProduto(produto);
+        super();
+        id.setPedido(pedido);
+        id.setProduto(produto);
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.preco = preco;
     }
 
-    public ItemPedido() {
+    public double getSubTotal() {
+        return (preco - desconto) * quantidade;
     }
 
-    public Double getSubTotal(){
-        return (preco - desconto)* quantidade;
+    @JsonIgnore
+    public Pedido getPedido() {
+        return id.getPedido();
+    }
+
+    public void setPedido(Pedido pedido) {
+        id.setPedido(pedido);
+    }
+
+    public Produto getProduto() {
+        return id.getProduto();
+    }
+
+    public void setProduto(Produto produto) {
+        id.setProduto(produto);
     }
 
     public ItemPedidoPK getId() {
@@ -64,28 +82,28 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
-    @JsonIgnore //acessa diretamente logo sao serializados          ->removido pois quero este campo
-    public Pedido getPedido() {
-        return id.getPedido();
-    }
-
-    //@JsonIgnore //acessa diretamente logo sao serializados
-    public Produto getProduto() {
-        return id.getProduto();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ItemPedido that = (ItemPedido) o;
-
-        return id != null ? id.equals(that.id) : that.id == null;
-    }
-
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ItemPedido other = (ItemPedido) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 }
