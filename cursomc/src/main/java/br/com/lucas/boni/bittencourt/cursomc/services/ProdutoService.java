@@ -4,7 +4,6 @@ import br.com.lucas.boni.bittencourt.cursomc.domain.Categoria;
 import br.com.lucas.boni.bittencourt.cursomc.domain.Pedido;
 import br.com.lucas.boni.bittencourt.cursomc.domain.Produto;
 import br.com.lucas.boni.bittencourt.cursomc.repositoies.CategoriaRepository;
-import br.com.lucas.boni.bittencourt.cursomc.repositoies.PedidoRepository;
 import br.com.lucas.boni.bittencourt.cursomc.repositoies.ProdutoRepository;
 import br.com.lucas.boni.bittencourt.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +34,6 @@ public class ProdutoService {
     public Page<Produto> search(String nome, List<Integer> ids,Integer page, Integer linerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linerPage, Sort.Direction.valueOf(direction), orderBy);
         List<Categoria> categorias = categoriaRepository.findAll(ids);
-        return repo.search(nome,categorias,pageRequest);
+        return repo.findDistinctByNomeContainingAndCategoriasIn(nome,categorias,pageRequest);
     }
 }
