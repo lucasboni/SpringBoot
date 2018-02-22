@@ -32,6 +32,9 @@ public class PedidoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private EmailService emailService;
+
 
     public Pedido find(Integer id) {
         Pedido obj = repo.findOne(id);   //por algum motivo o indone n funciona
@@ -64,6 +67,8 @@ public class PedidoService {
         }
         itemPedidoRepository.save(obj.getItens());
         System.out.println(obj);
+        emailService.sendOrderConfirmationEmail(obj);
+
         return obj;
     }
 }
