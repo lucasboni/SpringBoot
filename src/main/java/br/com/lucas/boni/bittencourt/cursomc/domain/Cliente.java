@@ -23,6 +23,9 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCliente;
 
+    @JsonIgnore
+    private String senha;
+
     //@JsonManagedReference
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)//tudo que modificar mo cliente irá atulizar no endereco
     private List<Endereco> enderecos = new ArrayList<>();
@@ -39,12 +42,13 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente,String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getId();
+        this.senha = senha;
     }
 
     @Override
@@ -125,7 +129,17 @@ public class Cliente implements Serializable {
         this.telefones = telefones;
     }
 
+    public void setTipoCliente(Integer tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
     @Override
     public int hashCode() {

@@ -19,6 +19,7 @@ public class ClienteDTO implements Serializable {
     @Email(message = "email inválido")
     private String email;
 
+
     public ClienteDTO() {
     }
 

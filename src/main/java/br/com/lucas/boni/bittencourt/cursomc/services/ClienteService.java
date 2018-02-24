@@ -17,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class ClienteService {
     private CidadeRepository cidadeRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     public Cliente find(Integer id) {
         Cliente obj = repo.findOne(id);   //por algum motivo o indone n funciona
@@ -70,7 +73,7 @@ public class ClienteService {
     }
 
     public Cliente fromDT0(ClienteDTO obj) {
-        return new Cliente(obj.getId(), obj.getNome(), obj.getEmail(), null, null);
+        return new Cliente(obj.getId(), obj.getNome(), obj.getEmail(), null, null,null);
     }
 
     public Cliente insert(Cliente obj) {
@@ -81,7 +84,7 @@ public class ClienteService {
     }
 
     public Cliente fromDT0(ClienteNewDTO obj) {
-        Cliente cli = new Cliente(null, obj.getNome(), obj.getEmail(), obj.getCpfOuCnpj(), TipoCliente.toEnum(obj.getTipoCliente()));
+        Cliente cli = new Cliente(null, obj.getNome(), obj.getEmail(), obj.getCpfOuCnpj(), TipoCliente.toEnum(obj.getTipoCliente()),pe.encode(obj.getSenha()));
         Cidade cid = cidadeRepository.findOne(obj.getCidadeId());
         Endereco end = new Endereco(null, obj.getLogradouro(), obj.getNumero(), obj.getComplemento(), obj.getBairro(), obj.getCep(), cli, cid);
         cli.getEnderecos().add(end);
