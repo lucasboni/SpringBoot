@@ -23,14 +23,14 @@ public class DevConfig {
     @Autowired
     private DBService service;
 
-             @Value("${spring.jpa.hibernate.ddl-auto}")//pega os dados de uma propriedade
-             private String stratagy;
+    @Value("${spring.jpa.hibernate.ddl-auto}")//pega os dados de uma propriedade
+    private String stratagy;
 
     @Bean//é obrigatorio retornar alguma coisa por isso retorna um true sempre
     public boolean instanciateDataBase() throws ParseException {
-        if(!stratagy.equalsIgnoreCase("create")){
+        if (!stratagy.equalsIgnoreCase("create")) {
             return false;
-        }else {
+        } else {
             service.instanciedTestDataBase();       //popula o banco de teste
             return true;
         }
