@@ -1,6 +1,9 @@
 package br.com.lucas.boni.bittencourt.cursomc.config;
 
 import br.com.lucas.boni.bittencourt.cursomc.services.DBService;
+import br.com.lucas.boni.bittencourt.cursomc.services.EmailService;
+import br.com.lucas.boni.bittencourt.cursomc.services.MockEmailService;
+import br.com.lucas.boni.bittencourt.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,4 +35,10 @@ public class DevConfig {
             return true;
         }
     }
+
+    @Bean // declara o email
+    public EmailService emailSErvice() {
+        return new SmtpEmailService();
+    }
+
 }
