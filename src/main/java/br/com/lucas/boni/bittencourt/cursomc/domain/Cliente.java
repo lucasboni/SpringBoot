@@ -1,5 +1,6 @@
 package br.com.lucas.boni.bittencourt.cursomc.domain;
 
+import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.Perfil;
 import br.com.lucas.boni.bittencourt.cursomc.domain.enuns.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
@@ -26,6 +28,10 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private String senha;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
+
     //@JsonManagedReference
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)//tudo que modificar mo cliente irá atulizar no endereco
     private List<Endereco> enderecos = new ArrayList<>();
@@ -40,6 +46,7 @@ public class Cliente implements Serializable {
     private List<Pedido> pedidos = new ArrayList<>(); //caso ele possua pedidos nao pode excluir
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);//o default sempre e cliente
     }
 
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente,String senha) {
@@ -49,6 +56,7 @@ public class Cliente implements Serializable {
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getId();
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     @Override
@@ -139,6 +147,14 @@ public class Cliente implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x->Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        this.perfis.add(perfil.getId());
     }
 
     @Override
