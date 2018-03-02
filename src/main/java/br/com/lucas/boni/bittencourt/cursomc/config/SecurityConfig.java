@@ -1,5 +1,7 @@
 package br.com.lucas.boni.bittencourt.cursomc.config;
 
+import br.com.lucas.boni.bittencourt.cursomc.security.JWTAuthenticationFilter;
+import br.com.lucas.boni.bittencourt.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private JWTUtil jwtUtil;
+
     public static final String[] PUBLIC_MATCHERS = {
            "/h2-console/**",
     };
@@ -38,6 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/clientes/**"
     };
 
+    /**
+     * COnfigura o spring security
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if(Arrays.asList(env.getActiveProfiles()).contains("test")){//se for teste
@@ -49,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()// permite todos da lista somente no método GET
                 .antMatchers(PUBLIC_MATCHERS).permitAll() // permite todos da lista
                 .anyRequest().authenticated();            // para todo resto requer autenticação
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//assegura que noa cria sessao
     }
 
