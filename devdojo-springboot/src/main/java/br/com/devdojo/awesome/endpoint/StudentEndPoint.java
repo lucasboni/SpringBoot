@@ -24,7 +24,8 @@ public class StudentEndPoint {
         return new ResponseEntity<>(StudentMock.studentList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET,path = "/{id}")
+    //@RequestMapping(method = RequestMethod.GET,path = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable("id") int id){
 
         int index= StudentMock.studentList.indexOf(new Student(id));
@@ -36,11 +37,27 @@ public class StudentEndPoint {
         return new ResponseEntity<>(StudentMock.studentList.get(index), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    //@RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody Student student){
-
         StudentMock.studentList.add(student);
+        return new ResponseEntity<>(student.getId(),HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(student.getId(),HttpStatus.CREATED);
+
+    //@RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestBody Student student){
+        StudentMock.studentList.remove(student);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    //@RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Student student){
+        StudentMock.studentList.remove(student);
+        StudentMock.studentList.add(student);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
