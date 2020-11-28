@@ -13,6 +13,7 @@ import java.util.Objects;
 @MappedSuperclass
 public class AbstractEntity implements Serializable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
