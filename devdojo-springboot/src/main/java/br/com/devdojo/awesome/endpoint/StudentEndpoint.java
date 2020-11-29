@@ -1,6 +1,7 @@
 package br.com.devdojo.awesome.endpoint;
 
 import br.com.devdojo.awesome.error.CustomErroType;
+import br.com.devdojo.awesome.error.ResorceNotFoundException;
 import br.com.devdojo.awesome.model.Student;
 import br.com.devdojo.awesome.repository.StudentRepository;
 import br.com.devdojo.awesome.util.DateUtil;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController//diz que é um endpoint rest
 @RequestMapping("students")
@@ -32,14 +35,10 @@ public class StudentEndpoint {
 
     //@RequestMapping(method = RequestMethod.GET,path = "/{id}")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable("id") long id){
+    public ResponseEntity<?> getStudentById(@PathVariable("id") long id) {
+        verifyIfStudentExists(id);
+        return new ResponseEntity<>(studentRepository.findById(id).get(), HttpStatus.OK);
 
-        Student student = studentRepository.getOne(id);;
-
-        if(student== null){
-            return new ResponseEntity<>(new CustomErroType("Student not found"), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
     @GetMapping(path = "findByName/{name}")
@@ -59,6 +58,7 @@ public class StudentEndpoint {
     //@RequestMapping(method = RequestMethod.DELETE)
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") long id){
+        verifyIfStudentExists(id);
         studentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -67,7 +67,15 @@ public class StudentEndpoint {
     //@RequestMapping(method = RequestMethod.PUT)
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Student student){
+        verifyIfStudentExists(student.getId());
         studentRepository.save(student);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void verifyIfStudentExists(Long id){
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        if(!optionalStudent.isPresent()){
+            throw new ResorceNotFoundException("Student not found ID: " + id);
+        }
     }
 }
