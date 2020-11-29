@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController//diz que é um endpoint rest
 @RequestMapping("students")
-public class StudentEndPoint {
+public class StudentEndpoint {
 
    // @Autowired
     //private DateUtil dateUtil;
@@ -20,7 +20,7 @@ public class StudentEndPoint {
     private final StudentRepository studentRepository;
 
     @Autowired
-    public StudentEndPoint(StudentRepository studentRepository) {
+    public StudentEndpoint(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
@@ -42,11 +42,18 @@ public class StudentEndPoint {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
+    @GetMapping(path = "findByName/{name}")
+    public ResponseEntity<?> findStudentByName(@PathVariable String name){
+        return new ResponseEntity<>(studentRepository.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
+    }
+
     //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Student student){
-        return new ResponseEntity<>(studentRepository.save(student),HttpStatus.OK);
+        return new ResponseEntity<>(studentRepository.save(student),HttpStatus.CREATED);
     }
+
+
 
 
     //@RequestMapping(method = RequestMethod.DELETE)
