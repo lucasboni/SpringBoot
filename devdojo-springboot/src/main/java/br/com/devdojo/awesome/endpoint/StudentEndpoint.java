@@ -7,6 +7,7 @@ import br.com.devdojo.awesome.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class StudentEndpoint {
 
     //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
+    @Transactional(rollbackFor =Exception.class)//faz o rollback caso de algum erro evitando que seja salvo algo pela metade
     public ResponseEntity<?> save(@RequestBody Student student){
         return new ResponseEntity<>(studentRepository.save(student),HttpStatus.CREATED);
     }
