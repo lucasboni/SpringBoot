@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController//diz que é um endpoint rest
@@ -49,7 +50,7 @@ public class StudentEndpoint {
     //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
     @Transactional(rollbackFor =Exception.class)//faz o rollback caso de algum erro evitando que seja salvo algo pela metade
-    public ResponseEntity<?> save(@RequestBody Student student){
+    public ResponseEntity<?> save(@Valid @RequestBody Student student){
         return new ResponseEntity<>(studentRepository.save(student),HttpStatus.CREATED);
     }
 

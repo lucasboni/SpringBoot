@@ -1,35 +1,7 @@
 package br.com.devdojo.awesome.error;
 
-public class ResorceNotFoundDetails {
-    private String title;
-    private int status;
-    private String detail;
-    private long timestamp;
-    private String developerMessage;
+public class ResorceNotFoundDetails extends ErroDetails{
 
-    private ResorceNotFoundDetails() {
-    }
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getDeveloperMessage() {
-        return developerMessage;
-    }
 
     public static final class Builder {
         private String title;
