@@ -1,6 +1,5 @@
 package br.com.devdojo.awesome.endpoint;
 
-import br.com.devdojo.awesome.error.CustomErroType;
 import br.com.devdojo.awesome.error.ResorceNotFoundException;
 import br.com.devdojo.awesome.model.Student;
 import br.com.devdojo.awesome.repository.StudentRepository;
