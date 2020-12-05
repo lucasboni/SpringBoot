@@ -39,13 +39,13 @@ public class RestExeptionHandler {
         ValidationErroDetails resorceNotFound = ValidationErroDetails.Builder
                 .newBuilder()
                 .timestamp(new Date().getTime())
-                .status(HttpStatus.NOT_FOUND.value())
+                .status(HttpStatus.BAD_REQUEST.value())
                 .title("Fild Validation Error")
                 .detail("Fild Validation Error")
                 .developerMessage(methodArgumentNotValidException.getClass().getName())
                 .field(fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(",")))
                 .fieldMessage(fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(",")))
                 .build();
-        return new ResponseEntity<>(resorceNotFound,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(resorceNotFound,HttpStatus.BAD_REQUEST);
     }
 }
