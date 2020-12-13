@@ -5,12 +5,14 @@ import br.com.devdojo.awesome.model.Student;
 import br.com.devdojo.awesome.repository.StudentRepository;
 import br.com.devdojo.awesome.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 @RestController//diz que é um endpoint rest
@@ -29,9 +31,9 @@ public class StudentEndpoint {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(){
+    public ResponseEntity<?> listAll(Pageable pageable){
         //System.out.println(dateUtil.formateLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return new ResponseEntity<>(studentRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(studentRepository.findAll(pageable), HttpStatus.OK);
     }
 
     //@RequestMapping(method = RequestMethod.GET,path = "/{id}")
